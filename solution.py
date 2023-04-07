@@ -11,9 +11,13 @@ def solution(p: float, x: np.array) -> tuple:
     # Это будет вашим решением
     # Не меняйте название функции и её аргументы
     alpha = 1 - p
-    loc = x.mean() - 1
-    scale = 2/20**2
-    n = len(x)
     
-    return loc - scale * gamma.ppf(1 - alpha / 2, n), \
-           loc - scale * gamma.ppf(alpha / 2, n)
+    loc = x.mean() - 1/2
+    n = len(x)
+    scale = 2/20**2
+
+    right_q = gamma.ppf(1 - alpha / 2, a = n) / n
+    left_q = gamma.ppf(alpha / 2, a = n) / n
+    
+    return scale * (left_q + loc), \
+           scale * (right_q + loc)
